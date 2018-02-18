@@ -1,4 +1,4 @@
-from aws_handler import Message, handler
+from mylambda import Message, handler
 import unittest2
 
 

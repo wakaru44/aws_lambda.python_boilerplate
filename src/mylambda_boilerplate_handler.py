@@ -7,16 +7,20 @@ import logging
 import json
 
 class Message(object):
-    pass
+    def __init__(self, verbose=False):
+        self.verbose = verbose
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+
+log = logging.getLogger()
+log.setLevel(logging.INFO)
 
 def handler(event, context):
     """
     minimal AWS lambda handler
     """
-    logger.info("Yay!")
+    log.info("Yay!")
+    variables=os.environ.get('LAMBDA_VARS')
+    log.info(repr(variables))
     msg={}
     msg["event"]=repr(event)
     msg["context"]=repr(context)

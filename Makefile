@@ -55,7 +55,7 @@ clean:
 
 test:
 	cd src ; nosetests ../test/*.py
-	python-lambda-local -f handler  src/$(fullname).py  test/fixtures/event.json
 	export LAMBDA_VARS="{SLACK_BOT_TOKEN=false-no-post}"
-	python-lambda-local -f handler  src/$(fullname).py  test/fixtures/no_invocation.json
+	python-lambda-local -f handler  src/$(fullname).py  test/fixtures/event.json
+	python-lambda-local -f handler  src/$(fullname).py  test/fixtures/in_ok_state.json
 
