@@ -1,0 +1,82 @@
+#!/bin/bash
+
+PROFILE=
+REGION=eu-central-1
+USAGE="Usage: $(basename $0)  --profile/-p aws-profile"
+FUNCTION_ARN=
+STARTUP=true
+
+set -x
+
+function getArn() {
+	ARN=$(aws --profile $PROFILE sts get-caller-identity --query Arn --output text)
+	if [ -z "$ARN" ] ; then
+		echo "ERROR: Failed to obtain account id" >&2
+		exit 1
+	fi
+	echo $ARN
+}
+
+function getAccountId() {
+	getArn | cut -d: -f 5
+}
+
+function parseCommandLine() {
+	while [ $# -gt 0 ] ; do
+		OPT=$1
+		shift
+		case $OPT in
+			--region|-r)
+				REGION=$1; shift;;
+			--profile|-p)
+				PROFILE=$1; shift;;
+			*)
+				echo $USAGE >&2
+				echo $OPT unknown option
+				exit 1
+				;;
+		esac
+	done
+
+	[[ -z $PROFILE ]] && echo "$USAGE: --profile/-p is required" && exit 1
+
+	ACCOUNTID=$(getAccountId)
+	[[ -z $ACCOUNTID ]] && exit 1
+
+}
+
+
+deploy_function() {
+	FUNCTION='reactive_infrastructure_handler'
+	FUNCTION_ARN=$(aws --output text  --query Configuration.FunctionArn --profile $PROFILE --region $REGION \
+				lambda  get-function --function-name $FUNCTION)
+
+	if [ -n "$FUNCTION_ARN" ] ; then
+        echo "Updating the function"
+		aws --profile $PROFILE --region $REGION \
+			lambda update-function-code \
+			--function-name $FUNCTION \
+			--zip-file fileb://$PWD/target/${FUNCTION}.zip
+	else
+        echo "Creating the function"
+		[[ -z $LAMBDA_VARS ]] && echo "$USAGE: environment variable LAMBDA_VARS is not set." && exit 1
+		aws --profile $PROFILE --region $REGION \
+			lambda create-function \
+			--handler $FUNCTION.handler \
+			--runtime python2.7 \
+			--role arn:aws:iam::$ACCOUNTID:role/lambda_basic_execution \
+			--function-name $FUNCTION \
+			--timeout 20 \
+			--description "$FUNCTION" \
+			--environment "${LAMBDA_VARS}" \
+			--zip-file fileb://$PWD/target/${FUNCTION}.zip
+        # TODO: the lambda vars is not yet tested.
+
+		FUNCTION_ARN=$(aws --output text  --query Configuration.FunctionArn --profile $PROFILE --region $REGION  \
+					lambda  get-function --function-name $FUNCTION)
+	fi
+}
+
+parseCommandLine "$@"
+deploy_function
+
