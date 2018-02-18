@@ -3,7 +3,7 @@
 
 
 import datetime
-import logging
+import logging, os, sys
 import json
 
 class Message(object):
@@ -20,6 +20,7 @@ def handler(event, context):
     """
     log.info("Yay!")
     variables=os.environ.get('LAMBDA_VARS')
+    log.info("variables")
     log.info(repr(variables))
     msg={}
     msg["event"]=repr(event)

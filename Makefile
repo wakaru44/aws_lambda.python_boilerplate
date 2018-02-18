@@ -51,11 +51,12 @@ deploy: target/$(fullname).zip
 	./deploy -p quby 
 
 clean:
-	rm -rf virtualenv target
+	rm -rf virtualenv target; find src -name "*pyc" -exec rm -v {} \;
 
 test:
 	cd src ; nosetests ../test/*.py
-	export LAMBDA_VARS="{SLACK_BOT_TOKEN=false-no-post}"
-	python-lambda-local -f handler  src/$(fullname).py  test/fixtures/event.json
+	export LAMBDA_VARS="{SLACK_BOT_TOKEN=false-no-post}" && \
+		python-lambda-local -f handler  src/$(fullname).py  test/fixtures/event.json &&\
 	python-lambda-local -f handler  src/$(fullname).py  test/fixtures/in_ok_state.json
+
 
