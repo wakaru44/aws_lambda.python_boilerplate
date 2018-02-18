@@ -6,11 +6,13 @@ import datetime
 import logging
 import json
 
+class Message(object):
+    pass
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-def lambda_handler(event, context):
+def handler(event, context):
     """
     minimal AWS lambda handler
     """
@@ -22,4 +24,5 @@ def lambda_handler(event, context):
     return { "message":json.dumps(msg) }
 
 if __name__=="__main__":
-    print lambda_handler("evento","contesto")
+    print "TODO: put some local testing in here"
+    print lambda_handler("evento","contexto")
