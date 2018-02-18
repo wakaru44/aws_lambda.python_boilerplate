@@ -1,0 +1,22 @@
+{
+  "Records": [
+    {
+      "EventVersion": "1.0",
+      "EventSource": "aws:sns",
+      "EventSubscriptionArn": "arn:aws:sns:eu-central-1:000000008951:arandomtopionansns:0u100ofc-d84a-4ddd-b694-49213e72bd4d",
+      "Sns": {
+        "MessageId": "3bd28a0c-f2a7-5b16-9cfc-d90e4d902f73",
+        "Signature": "T7Bhe3D8NRP8n1ysct+ZuDOA7Ouoo2SuiahxlIHjkkbk0o2b99999999999aaaaaaakkakkkkkkkhhhhhhoooooockha00u0o0k0o0o0o0o0o0o0o0o7gbM+C2hYJ9X1ewzRimO9AA5Vq3TRhfzrnDRGbML5xS0yTi02iNLqRWTybonqlQvlv9sf96n7k0k2M7t+QzzYsWmoyHQ7ZoUef6/DAvOWlTNRmyuE90v1QSrE1fcDT26PQlGsoThTfXa15j4iz6fU0bMjDOil4L208p2WwU2aS7/ouTkF1nFkI7MPE4dw9tf8Qx4nrZLNyVGoWajdWD/S9T7ODGTF+/0Qyw==",
+        "Type": "Notification",
+        "TopicArn": "arn:aws:sns:eu-central-1:000000009151:arandomtopionansns",
+        "MessageAttributes": {},
+        "SignatureVersion": "1",
+        "Timestamp": "2018-02-17T23:38:31.339Z",
+        "SigningCertUrl": "https://sns.eu-central-1.amazonaws.com/SimpleNotificationService-auhkonucahxloucaulkbalohea859041.pem",
+        "Message": "some stuff send towards the function\n",
+        "UnsubscribeUrl": "https://sns.eu-central-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:eu-central-1:000000000951:arandomtopiconansns:8412f2fc-d84a-4ddd-b694-49213e72bd4d",
+        "Subject": "Subject of a message"
+      }
+    }
+  ]
+}
