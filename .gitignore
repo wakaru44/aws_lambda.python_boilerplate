@@ -3,11 +3,15 @@
 ENV
 env
 
+# packaging
+virtualenv/
+target/
+packages
+releases
+
 
 #Generic stuff
 tmp
-packages
-releases
 archive
 *log
 

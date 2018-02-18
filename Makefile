@@ -1,8 +1,8 @@
 # A simple makefile to make things simpler
 
 .PHONY: deploy test
-name="reactive_infrastructure"
-fullname="$(name)_handler"
+name=mylambda_boilerplate
+fullname=${name}_handler
 
 ZIPFILE=$(shell pwd)/target/$(fullname).zip
 
@@ -34,7 +34,7 @@ bump:
 	git commit -m "Bumping to version $(shell cat .release)"
 	git tag $(shell cat .release)
 
-target/reactive_infrastructure_handler.zip: virtualenv src/reactive_infrastructure_handler.py
+target/$(fullname).zip: virtualenv src/$(fullname).py
 	rm -rf target && mkdir -p target
 	find src -type d | xargs  chmod ugo+rx 
 	find src -type f | xargs  chmod ugo+r 
@@ -47,7 +47,7 @@ virtualenv: requirements.txt
 	. ./virtualenv/bin/activate && \
 	pip install -r requirements.txt
 	
-deploy: target/reactive_infrastructure_handler.zip
+deploy: target/$(fullname).zip
 	./deploy -p quby 
 
 clean:
